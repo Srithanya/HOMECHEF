@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from django.contrib import messages
-from profiles.forms import  UserUpdateForm, ProfileUpdateForm
+from profiles.forms import  UserUpdateForm, ProfileUpdateForm,SellerProfileUpdateForm
 from .forms import UserRegisterForm, AuthenticationForm
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
@@ -12,6 +12,8 @@ from django.template.loader import render_to_string
 from .tokens import account_activation_token
 from django.contrib.auth.models import User
 from django.core.mail import EmailMessage
+
+
 
 def register(request):
 	if request.method=='POST':
@@ -103,3 +105,25 @@ def profile(request):
 		'p_form':p_form,
 	}
 	return render(request, 'users/profile.html', context)
+
+@login_required
+def sellerprofile(request):
+	if request.method == 'POST':
+	   u_form = UserUpdateForm(request.POST, instance=request.user)
+	   p_form = SellerProfileUpdateForm(request.POST,
+								  request.FILES,
+								  instance=request.user.profile)
+	   if u_form.is_valid() and p_form.is_valid():
+		   u_form.save()
+		   p_form.save()
+		   messages.success(request, f'Your account has been updated!')
+		   return redirect('sellerprofile')
+	else:
+		u_form = UserUpdateForm(instance=request.user)
+		p_form = SellerProfileUpdateForm(instance=request.user.profile)
+
+	context = {
+		'u_form':u_form,
+		'p_form':p_form,
+	}
+	return render(request, 'users/sellerprofile.html', context)

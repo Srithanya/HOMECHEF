@@ -27,6 +27,7 @@ urlpatterns = [
     path('', include('homechef.urls')),
     path('register/',user_views.register,name='register'),
     path('profile/',user_views.profile,name='profile'),
+     path('sellerprofile/',user_views.sellerprofile,name='sellerprofile'),
     path('login/',user_views.Login,name='login'),
     path('logout/',auth_views.LogoutView.as_view(template_name='users/logout.html'),name='logout'),
     path('Buy/',homechef_views.Buy,name='Buy'),
@@ -36,6 +37,10 @@ urlpatterns = [
     path('food/',homechef_views.food,name='food'),
     path('vendorlist/',homechef_views.vendorlist,name='vendorlist'),
     path('about/',homechef_views.about,name='about'),
+    path('Selling1/',homechef_views.Selling1,name="Selling1"),
+    path('Bevolunteer/',homechef_views.Bevolunteer,name="Bevolunteer"),
+    path('Volunteerform/',homechef_views.Volunteerform,name="Volunteerform"),
+
     url(r'^activate/(?P<uidb64>[0-9A-Za-z_\-]+)/(?P<token>[0-9A-Za-z]{1,13}-[0-9A-Za-z]{1,20})/$',
         user_views.activate, name='activate'),
     path('password-reset/',
